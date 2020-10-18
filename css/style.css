@@ -37,7 +37,17 @@ body {
           flex-direction: column;
 }
 
-.buttonAdd {
+.addInput {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  margin-left: auto;
+  margin-right: auto;
+  display: none;
+  margin-bottom: 15px;
+}
+
+.addButton {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;

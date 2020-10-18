@@ -29,7 +29,15 @@ body {
     }
 }
 
-.buttonAdd {
+.addInput {
+    appearance: none;
+    margin-left: auto;
+    margin-right: auto;
+    display: none;
+    margin-bottom: 15px;
+}
+
+.addButton {
     appearance: none;
     display: block;
     margin-left: auto;
