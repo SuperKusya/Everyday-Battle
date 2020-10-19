@@ -3,19 +3,28 @@ const cardItems = document.querySelectorAll('.card__item'),
       addItemButton = document.querySelector('.addButton'),
       textField = document.querySelector('.addInput');
 
+let data = localStorage.getItem('usersData') ? JSON.parse(localStorage.getItem('usersData')) : [[], []];
+
 let isInputShown = false;
 
-function addItemToList(cardList) {
+data.forEach((labels, index) => {
+    labels.forEach((label) => {
+        addItemToList(cardLists[index], label);
+    })
+})
+
+function addItemToList(cardList, value) {
     let label = document.createElement('label'),
-        input = document.createElement('input'),
         text = document.createElement("span");
+    let input = document.createElement('input');
 
     label.appendChild(input);
     label.appendChild(text);
     input.setAttribute('type', 'checkbox');
     input.classList.add('card__item');
-    text.textContent = textField.value;
+    text.textContent = value;
     cardList.appendChild(label);
+
 }
 
 
@@ -24,10 +33,27 @@ addItemButton.addEventListener('click', function(e) {
         textField.style.display = 'block';
         isInputShown = true;
     } else {
-        for (let cardList of cardLists) {
-            addItemToList(cardList);
-        }
-        textField.value = '';
+        renderAndSave();
     }
+    textField.value = '';
 })
 
+textField.addEventListener("keyup", function(event) {
+    if (event.keyCode === 13 && isInputShown === true) {
+        event.preventDefault();
+        renderAndSave();
+        textField.value = '';
+    }
+});
+
+function renderAndSave() {
+    for (let [index, cardList] of cardLists.entries()) {
+        addItemToList(cardList, textField.value);
+        data[index].push(textField.value);
+    }
+    saveData(data);
+}
+
+function saveData(data) {
+    localStorage.setItem('usersData', JSON.stringify(data));
+}
