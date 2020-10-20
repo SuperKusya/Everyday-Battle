@@ -58,13 +58,19 @@ textField.addEventListener("keyup", function(event) {
 });
 
 function renderAndSave() {
-    for (let [index, cardList] of cardLists.entries()) {
-        addItemToList(cardList, textField.value);
-        data[index].push(textField.value);
+    if (textField.value === '') {
+        alert('Ты не пройдешь!');
+    } else {
+        for (let [index, cardList] of cardLists.entries()) {
+            addItemToList(cardList, textField.value);
+            data[index].push(textField.value);
+        }
+        saveData(data);
     }
-    saveData(data);
+    
 }
 
 function saveData(data) {
     localStorage.setItem('usersData', JSON.stringify(data));
 }
+
