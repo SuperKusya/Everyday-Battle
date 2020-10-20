@@ -1,19 +1,18 @@
-const cardItems = document.querySelectorAll('.card__item'),
-      cardLists = document.querySelectorAll('.card__list'),
+const cardLists = document.querySelectorAll('.card__list'),
       addItemButton = document.querySelector('.addButton'),
       textField = document.querySelector('.addInput');
 
 let data = localStorage.getItem('usersData') ? JSON.parse(localStorage.getItem('usersData')) : [[], []];
-
 let isInputShown = false;
+let cardItems = document.querySelectorAll('label');
 
-data.forEach((labels, index) => {
-    labels.forEach((label) => {
-        addItemToList(cardLists[index], label);
+data.forEach((arrLabels, index) => {
+    arrLabels.forEach((labelText) => {
+        addItemToList(cardLists[index], labelText);
     })
 })
 
-function addItemToList(cardList, value) {
+function addItemToList(cardList, labelText) {
     let label = document.createElement('label'),
         text = document.createElement("span");
     let input = document.createElement('input');
@@ -22,11 +21,22 @@ function addItemToList(cardList, value) {
     label.appendChild(text);
     input.setAttribute('type', 'checkbox');
     input.classList.add('card__item');
-    text.textContent = value;
+    text.textContent = labelText;
     cardList.appendChild(label);
-
+    
+    label.addEventListener('click', function(e) {
+        e.preventDefault();
+        removeItem(label);
+    })
 }
 
+function removeItem(cardItem) {
+    let parent = cardItem.parentNode;
+    let indexParent = [...cardLists].indexOf(parent);
+    data[indexParent] = data[indexParent].filter(el => el !== cardItem.innerText);
+    saveData(data);
+    cardItem.remove();
+}
 
 addItemButton.addEventListener('click', function(e) {
     if(isInputShown === false) {
@@ -35,6 +45,7 @@ addItemButton.addEventListener('click', function(e) {
     } else {
         renderAndSave();
     }
+    textField.focus();
     textField.value = '';
 })
 
