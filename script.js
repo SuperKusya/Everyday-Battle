@@ -21,7 +21,7 @@ function addItemToList(cardList, labelText) {
     label.appendChild(text);
     input.setAttribute('type', 'checkbox');
     input.classList.add('card__item');
-    text.textContent = labelText;
+    text.textContent = labelText.trim();
     cardList.appendChild(label);
     
     label.addEventListener('click', function(e) {
@@ -58,7 +58,7 @@ textField.addEventListener("keyup", function(event) {
 });
 
 function renderAndSave() {
-    if (textField.value === '') {
+    if (textField.value === '' || textField.value.trim() === '') {
         alert('Ты не пройдешь!');
     } else {
         for (let [index, cardList] of cardLists.entries()) {
