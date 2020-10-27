@@ -6,8 +6,25 @@ const cardLists = document.querySelectorAll('.card__list'),
 
 let data = localStorage.getItem('usersData') ? JSON.parse(localStorage.getItem('usersData')) : [[], []];
 let usersScore = localStorage.getItem('usersScore') ? JSON.parse(localStorage.getItem('usersScore')) : [0, 0];
+let lastVisitDatе = localStorage.getItem('lastVisitDatе') || localStorage.setItem('lastVisitDatе', dateTemplate(new Date()));
 let isInputShown = false;
 let cardItems = document.querySelectorAll('label');
+
+// let totalList = ['1', '2'];
+
+// data = [totalList, totalList];
+
+let currentDate = dateTemplate(new Date()); 
+
+// if (currentDate !== lastVisitDatе ) {список сбрасывается};
+
+function dateTemplate(date) {   
+    let theyear = date.getFullYear();
+    let themonth = date.getMonth() + 1;
+    let theday = date.getDate();
+
+    return date = `${theyear}.${themonth}.${theday}`;
+}
 
 function initRender() {
     data.forEach((arrLabels, index) => {
@@ -37,12 +54,6 @@ function addItemToList(cardList, labelText) {
         removeItem(label);
     })
 }
-
-// function recalScore(indexParent) {
-//     userCards.forEach(userCard) {
-//         labelsScore = 
-//     }
-// }
 
 function removeItem(cardItem) {
     let parent = cardItem.parentNode;
@@ -79,13 +90,17 @@ function renderAndSave() {
     let isTextFieldCorrect = validateTextField();
 
     if (isTextFieldCorrect) {
-        for (let [index, cardList] of cardLists.entries()) {
-            addItemToList(cardList, textField.value);
-            data[index].push(textField.value);
-        }
+        render(data);
         saveData(data);
     } else {
         alert('Ты не пройдешь!');
+    }
+}
+
+function render(array) {
+    for (let [index, cardList] of cardLists.entries()) {
+        addItemToList(cardList, textField.value);
+        array[index].push(textField.value);
     }
 }
 
